@@ -1,0 +1,21 @@
+ai practical 5a
+
+0/1 Knapsack using Recursion
+
+
+def knapsack(w, v, cap, n):
+    if n == 0 or cap == 0:
+        return 0
+
+    if w[n-1] <= cap:
+        return max(v[n-1] + knapsack(w, v, cap-w[n-1], n-1),
+                   knapsack(w, v, cap, n-1))
+    else:
+        return knapsack(w, v, cap, n-1)
+
+w = [1, 2, 3]
+v = [10, 15, 40]
+cap = 5
+
+print("Max value:", knapsack(w, v, cap, len(w)))
+

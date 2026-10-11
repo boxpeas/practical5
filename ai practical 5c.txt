@@ -1,0 +1,21 @@
+ai practical 5c 
+
+
+
+w = [10, 20, 30]
+v = [60, 100, 120]
+cap = 50
+
+items = sorted(zip(w, v), key=lambda x: x[1]/x[0], reverse=True)
+total = 0
+
+for weight, value in items:
+    if cap >= weight:
+        total += value
+        cap -= weight
+    else:
+        total += value * cap / weight
+        break
+
+print("Max value:", total)
+

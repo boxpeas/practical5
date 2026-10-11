@@ -1,0 +1,48 @@
+ai practical 5d
+
+
+
+# Common input
+w = [1, 2, 3]
+v = [10, 15, 40]
+cap = 5
+n = len(w)
+
+# 1. 0/1 Knapsack using Recursion
+def knapsack(w, v, cap, n):
+    if n == 0 or cap == 0:
+        return 0
+    if w[n-1] <= cap:
+        return max(v[n-1] + knapsack(w, v, cap-w[n-1], n-1),
+                   knapsack(w, v, cap, n-1))
+    return knapsack(w, v, cap, n-1)
+
+print("Recursion:", knapsack(w, v, cap, n))
+
+# 2. 0/1 Knapsack using Dynamic Programming
+dp = [[0]*(cap+1) for i in range(n+1)]
+
+for i in range(1, n+1):
+    for c in range(1, cap+1):
+        dp[i][c] = dp[i-1][c]
+        if w[i-1] <= c:
+            dp[i][c] = max(dp[i][c],
+                           v[i-1] + dp[i-1][c-w[i-1]])
+
+print("Dynamic Programming:", dp[n][cap])
+
+# 3. Fractional Knapsack using Greedy
+items = sorted(zip(w, v), key=lambda x: x[1]/x[0], reverse=True)
+total = 0
+remaining = cap
+
+for weight, value in items:
+    if weight <= remaining:
+        total += value
+        remaining -= weight
+    else:
+        total += value * remaining / weight
+        break
+
+print("Fractional Greedy:", total)
+
